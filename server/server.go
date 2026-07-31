@@ -45,9 +45,6 @@ func main() {
 }
 
 func BuscaCotacaoHandler(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)
-	defer cancel()
-
 	if r.Method != http.MethodGet {
 		http.Error(w, "Método não permitido", http.StatusMethodNotAllowed)
 		return
@@ -65,6 +62,8 @@ func BuscaCotacaoHandler(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 		return
 	}
 
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)
+	defer cancel()
 	db.WithContext(ctx).Create(&cotacao)
 	if ctx.Err() != nil {
 		log.Printf("Erro ao salvar cotação no banco de dados: %v", ctx.Err())
