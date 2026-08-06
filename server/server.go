@@ -83,10 +83,6 @@ func BuscaCotacao(moeda string) (*Cotacao, error) {
 	}
 	resp, err := http.DefaultClient.Do(httpReq)
 	if err != nil {
-		return nil, err
-	}
-
-	if err != nil {
 		if errors.Is(err, context.DeadlineExceeded) {
 			log.Printf("timeout excedido ao buscar cotação da moeda %s: %v", moeda, err)
 		}
